@@ -47,6 +47,7 @@ main {
 main {
   flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -62,7 +63,7 @@ form {
   border-left: 8px solid var(--secondary-clr);
 }
 
-h2 {
+form h2 {
   font-size: 2rem;
   text-align: center;
   margin-bottom: 0.5rem;
@@ -106,12 +107,12 @@ button:hover {
   background-color: var(--secondary-light-clr);
 }
 
-button.home {
+button.button {
   background-color: var(--primary-lighter-clr);
   border: 2px solid var(--primary-clr);
 }
 
-button.home:hover {
+button.button:hover {
   background-color: var(--primary-light-clr);
 }
 

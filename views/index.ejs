@@ -14,7 +14,12 @@
     <h1><a href="/">Members Only</a></h1>
   </header>
   <main>
-
+    <% if (user) { %>
+      <h2>
+        Welcome, <%= user.name %>!
+      </h2>
+      <button onclick="location.href='/members-only/log-out'" type="button" class="button">Log Out</button>
+      <% } %>
   </main>
   <footer>
     <p>Made by <a href="https://github.com/christina172?tab=repositories">christina172</a></p>

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcryptjs = require("bcryptjs");
+const passport = require("passport");
 const { body, validationResult } = require("express-validator");
 
 const User = require("../models/user");
@@ -9,7 +10,8 @@ const Message = require("../models/message");
 const asyncHandler = require("express-async-handler");
 
 router.get("/", asyncHandler(async (req, res, next) => {
-    res.render("index", { title: "Home" });
+    console.log(req.user);
+    res.render("index", { title: "Home", user: req.user });
 }));
 
 router.get("/sign-up", (async (req, res, next) => {
@@ -84,7 +86,7 @@ router.post("/sign-up", [
 
                 // Save user.
                 await user.save();
-                // Redirect to the login form record.
+                // Redirect to the home page.
                 res.redirect("/");
             }
         })
@@ -92,12 +94,25 @@ router.post("/sign-up", [
 ]);
 
 router.get("/log-in", (async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Login form GET");
+    res.render("login_form", { title: "Log In" });
 }));
 
-router.post("/log-in", (async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Login form POST");
-}));
+router.post("/log-in",
+    passport.authenticate("local", {
+        successRedirect: "/members-only",
+        failureRedirect: "/members-only/log-in",
+        failureFlash: true
+    })
+);
+
+router.get("/log-out", (req, res, next) => {
+    req.logout(function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("/members-only");
+    });
+});
 
 router.get("/become-a-member", (async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Become a member form GET");

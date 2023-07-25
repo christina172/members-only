@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members Only | <%= title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <header>
+        <h1><a href="/">Members Only</a></h1>
+    </header>
+    <main>
+        <form action="" method="POST">
+            <h2>
+                <%= title %>
+            </h2>
+            <div class="form-item">
+                <label for="first_name">Username:</label>
+                <input type="text" id="username" name="username" required value=<%=locals.user ? user.username : '' %>>
+            </div>
+            <div class="form-item">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <% if (messages.error) {%>
+                <ul>
+                    <li>
+                        <%=messages.error %>
+                    </li>
+                </ul>
+                <% } %>
+                    <div class="buttons">
+                        <button onclick="location.href='/members-only'" type="button" class="button">Go to Home
+                            Page</button>
+                        <button type="submit" class="submit">Log in</button>
+                    </div>
+        </form>
+    </main>
+    <footer>
+        <p>Made by <a href="https://github.com/christina172?tab=repositories">christina172</a></p>
+    </footer>
+</body>
+
+</html>
