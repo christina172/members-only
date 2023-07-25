@@ -1,6 +1,16 @@
+:root {
+  --primary-clr: rgb(0, 174, 255);
+  --primary-light-clr: rgb(171, 228, 255);
+  --primary-lighter-clr: rgb(221, 244, 255);
+  --secondary-clr: rgb(255, 153, 0);
+  --secondary-light-clr: rgb(255, 220, 167);
+  --secondary-lighter-clr: rgb(255, 237, 210);
+}
+
 * {
   padding: 0;
   margin: 0;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 body {
@@ -12,7 +22,7 @@ body {
 header,
 footer {
   padding: 8px;
-  background-color: rgb(0, 174, 255);
+  background-color: var(--primary-clr);
 }
 
 h1,
@@ -21,10 +31,123 @@ footer p {
   color: white;
 }
 
+h1 a {
+  color: white;
+  text-decoration: none;
+}
+
 footer a {
   color: white;
 }
 
 main {
+  background-color: var(--primary-lighter-clr);
+}
+
+main {
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background-color: white;
+  box-shadow: 3px 3px 5px grey;
+  border-radius: 8px;
+  padding: 30px 15px;
+  border-left: 8px solid var(--secondary-clr);
+}
+
+h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.form-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+label {
+  font-size: 1.5rem;
+}
+
+input {
+  font-size: 1.25rem;
+  padding: 2px 4px;
+  min-width: 300px;
+  outline-color: var(--secondary-clr);
+  font-style: italic;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 0.5rem;
+}
+
+button {
+  font-size: 1.25rem;
+  padding: 2px 16px;
+  background-color: var(--secondary-lighter-clr);
+  border: 2px solid var(--secondary-clr);
+  border-radius: 10px;
+  cursor: grab;
+}
+
+button:hover {
+  background-color: var(--secondary-light-clr);
+}
+
+button.home {
+  background-color: var(--primary-lighter-clr);
+  border: 2px solid var(--primary-clr);
+}
+
+button.home:hover {
+  background-color: var(--primary-light-clr);
+}
+
+ul {
+  margin-top: 0.5rem;
+  list-style-position: inside;
+}
+
+li {
+  list-style-type: "\26A0";
+}
+
+@media (max-width: 600px) {
+  main {
+    background-color: white;
+  }
+
+  form {
+    gap: 12px;
+    box-shadow: none;
+    padding: 0;
+    border: none;
+  }
+
+  .form-item {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  input {
+    font-size: 1.2rem;
+    border: none;
+    border-bottom: 1px solid black;
+  }
+
+  ul {
+    max-width: 300px;
+  }
 }

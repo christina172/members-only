@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members Only | <%= title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <header>
+        <h1><a href="/">Members Only</a></h1>
+    </header>
+    <main>
+        <form action="" method="POST">
+            <h2>
+                <%= title %>
+            </h2>
+            <div class="form-item">
+                <label for="first_name">First name:</label>
+                <input type="text" id="first_name" name="first_name" required value=<%=locals.user ? user.first_name
+                    : '' %>>
+            </div>
+            <div class=" form-item">
+                <label for="last_name">Last name:</label>
+                <input type="text" id="last_name" name="last_name" required value=<%=locals.user ? user.last_name : ''
+                    %>>
+            </div>
+            <div class="form-item">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required value=<%=locals.user ? user.username : '' %>>
+            </div>
+            <div class="form-item">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" minlength="8" required>
+            </div>
+            <div class="form-item">
+                <label for="confirm_password">Confirm password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            <% if (locals.errors) {%>
+                <ul>
+                    <% errors.forEach(error=> { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+                <% } %>
+                    <div class="buttons">
+                        <button onclick="location.href='/'" type="button" class="home">Go to Home Page</button>
+                        <button type="submit" class="submit">Submit</button>
+                    </div>
+        </form>
+
+    </main>
+    <footer>
+        <p>Made by <a href="https://github.com/christina172?tab=repositories">christina172</a></p>
+    </footer>
+</body>
+
+</html>
