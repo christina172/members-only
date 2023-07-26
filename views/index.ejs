@@ -16,8 +16,12 @@
   <main>
     <% if (user) { %>
       <h2>
-        Welcome, <%= user.name %>!
+        Welcome, <%= user.name %>
+          <% if (user.is_admin){ %> (admin)<% }%>!
       </h2>
+      <p>
+        Membership status: "<%= user.membership_status %>"
+      </p>
       <button onclick="location.href='/members-only/log-out'" type="button" class="button">Log Out</button>
       <% } %>
   </main>

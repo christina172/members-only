@@ -10,7 +10,6 @@ const Message = require("../models/message");
 const asyncHandler = require("express-async-handler");
 
 router.get("/", asyncHandler(async (req, res, next) => {
-    console.log(req.user);
     res.render("index", { title: "Home", user: req.user });
 }));
 
@@ -87,7 +86,7 @@ router.post("/sign-up", [
                 // Save user.
                 await user.save();
                 // Redirect to the home page.
-                res.redirect("/");
+                res.redirect("/members-only");
             }
         })
     })
@@ -115,19 +114,67 @@ router.get("/log-out", (req, res, next) => {
 });
 
 router.get("/become-a-member", (async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Become a member form GET");
+    res.render("become_a_member", { title: "Become a Member", user: req.user });
 }));
 
-router.post("/become-a-member", (async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Become a member form POST");
-}));
+router.post("/become-a-member", [
+    // Validate and sanitize fields.
+    body("answer", "Answer must be specified.")
+        .trim()
+        .isLength({ min: 1 })
+        .escape(),
+
+    // Process request after validation and sanitization.
+    (async (req, res, next) => {
+
+        const user = req.user;
+
+        // Check the answer.
+        if (req.body.answer === process.env.MEMBER_PASSWORD) {
+            user.membership_status = "Member";
+            await user.save();
+            // Redirect to the home page.
+            res.redirect("/members-only");
+        } else {
+            res.render("become_a_member", {
+                title: "Become a Member",
+                message: "Your answer is incorrect. Try again.",
+            });
+            return;
+        }
+    })
+]);
 
 router.get("/become-admin", (async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Become admin form GET");
+    res.render("become_admin", { title: "Become Admin", user: req.user });
 }));
 
-router.post("/become-admin", (async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Become admin form POST");
-}));
+router.post("/become-admin", [
+    // Validate and sanitize fields.
+    body("answer", "Answer must be specified.")
+        .trim()
+        .isLength({ min: 1 })
+        .escape(),
+
+    // Process request after validation and sanitization.
+    (async (req, res, next) => {
+
+        const user = req.user;
+
+        // Check the answer.
+        if (req.body.answer === process.env.ADMIN_PASSWORD) {
+            user.is_admin = true;
+            await user.save();
+            // Redirect to the home page.
+            res.redirect("/members-only");
+        } else {
+            res.render("become_admin", {
+                title: "Become Admin",
+                message: "Your answer is incorrect. Try again.",
+            });
+            return;
+        }
+    })
+]);
 
 module.exports = router;

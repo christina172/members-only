@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members Only | <%= title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <header>
+        <h1><a href="/">Members Only</a></h1>
+    </header>
+    <main>
+        <form action="" method="POST">
+            <h2>
+                <%= title %>
+            </h2>
+            <p>Solve a riddle to become admin!</p>
+            <p>What begins with an "e" and only contains one letter?</p>
+            <div class="form-item">
+                <label for="answer">Answer:</label>
+                <input type="text" id="answer" name="answer" required>
+            </div>
+            <% if (locals.message) {%>
+                <p>
+                    <%= locals.message %>
+                </p>
+                <% } %>
+                    <div class="buttons">
+                        <button onclick="location.href='/members-only'" type="button" class="button">Go to Home
+                            Page</button>
+                        <button type="submit" class="submit">Submit</button>
+                    </div>
+        </form>
+    </main>
+    <footer>
+        <p>Made by <a href="https://github.com/christina172?tab=repositories">christina172</a></p>
+    </footer>
+</body>
+
+</html>
