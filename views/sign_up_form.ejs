@@ -12,6 +12,9 @@
 <body>
     <header>
         <h1><a href="/">Members Only</a></h1>
+        <div class="unlogged-header">
+            <a href="/members-only/log-in">Log In</a>
+        </div>
     </header>
     <main>
         <form action="" method="POST">
@@ -20,17 +23,18 @@
             </h2>
             <div class="form-item">
                 <label for="first_name">First name:</label>
-                <input type="text" id="first_name" name="first_name" required value=<%=locals.user ? user.first_name
-                    : '' %>>
+                <input type="text" id="first_name" name="first_name" required maxlength="100" value=<%=locals.user ?
+                    user.first_name : '' %>>
             </div>
             <div class=" form-item">
                 <label for="last_name">Last name:</label>
-                <input type="text" id="last_name" name="last_name" required value=<%=locals.user ? user.last_name : ''
-                    %>>
+                <input type="text" id="last_name" name="last_name" required maxlength="100" value=<%=locals.user ?
+                    user.last_name : '' %>>
             </div>
             <div class="form-item">
                 <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required value=<%=locals.user ? user.username : '' %>>
+                <input type="text" id="username" name="username" required maxlength="100" value=<%=locals.user ?
+                    user.username : '' %>>
             </div>
             <div class="form-item">
                 <label for="password">Password:</label>

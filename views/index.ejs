@@ -11,19 +11,83 @@
 
 <body>
   <header>
-    <h1><a href="/">Members Only</a></h1>
+    <h1><a href="/members-only" title="Home">Members Only</a></h1>
+    <% if (user) { %>
+      <div class="profile">
+        <img src="/images/profile-circle-filled.svg" alt="<%=user.name %>" title="<%=user.name %>"
+          class="profile-image">
+        <div class="profile-text">
+          <h3>
+            <%= user.name %>
+          </h3>
+          <% if (user.membership_status=="Member" ) { %>
+            <p>
+              <% if (user.is_admin) { %>
+                Admin
+                <% } else { %>
+                  Member
+                  <% } %>
+            </p>
+            <% } %>
+        </div>
+        <a href="/members-only/log-out">
+          <img src="/images/log-out.svg" alt="log out" title="Log Out" class="profile-log-out">
+        </a>
+      </div>
+      <% } else {%>
+        <div class="unlogged-header">
+          <a href="/members-only/sign-up">Sign Up</a>
+          <a href="/members-only/log-in">Log In</a>
+        </div>
+        <% } %>
   </header>
   <main>
+    <h2>Welcome to our website!</h2>
     <% if (user) { %>
-      <h2>
-        Welcome, <%= user.name %>
-          <% if (user.is_admin){ %> (admin)<% }%>!
-      </h2>
-      <p>
-        Membership status: "<%= user.membership_status %>"
-      </p>
-      <button onclick="location.href='/members-only/log-out'" type="button" class="button">Log Out</button>
-      <% } %>
+      <% if (user.membership_status=="Not a member" ) { %>
+        <button onclick="location.href='/members-only/become-a-member'" type="button" class="button-index">Become a
+          member</button>
+        <% } %>
+          <% if (user.membership_status=="Member" && !user.is_admin) { %>
+            <button onclick="location.href='/members-only/become-admin'" type="button" class="button-index">Become
+              admin</button>
+            <% } %>
+              <button onclick="location.href='/members-only/write-a-message'" type="button" class="submit">Write a
+                message</button>
+              <% } %>
+                <% if (messages.length) { %>
+                  <div class="messages">
+                    <% messages.forEach(message=> {%>
+                      <div class="message">
+                        <div class="message-header">
+                          <h4>
+                            <%=message.title %>
+                          </h4>
+                          <% if (user && user.is_admin) { %>
+                            <img src="/images/delete-orange.svg" alt="delete" title="Delete message">
+                            <% } %>
+                        </div>
+                        <div class="message-details">
+                          <% if (user && user.membership_status=="Member" ) { %>
+                            <p>
+                              By <span class="message-author">
+                                <%=message.author.name %>
+                              </span>
+                            </p>
+                            <p class="message-time">
+                              <%=format(new Date(message.timestamp), "PPPp" ) %>
+                            </p>
+                            <% } %>
+                        </div>
+                        <p>
+                          <%=message.text %>
+                        </p>
+                      </div>
+                      <% }) %>
+                        <% } else { %>
+                          <p>No messages to display.</p>
+                          <% } %>
+                  </div>
   </main>
   <footer>
     <p>Made by <a href="https://github.com/christina172?tab=repositories">christina172</a></p>

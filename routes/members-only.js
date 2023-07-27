@@ -3,6 +3,7 @@ const router = express.Router();
 const bcryptjs = require("bcryptjs");
 const passport = require("passport");
 const { body, validationResult } = require("express-validator");
+const format = require("date-fns/format");
 
 const User = require("../models/user");
 const Message = require("../models/message");
@@ -10,7 +11,12 @@ const Message = require("../models/message");
 const asyncHandler = require("express-async-handler");
 
 router.get("/", asyncHandler(async (req, res, next) => {
-    res.render("index", { title: "Home", user: req.user });
+    const allMessages = await Message.find()
+        .populate("author")
+        .sort({ timestamp: 1 })
+        .exec();
+
+    res.render("index", { title: "Home", user: req.user, messages: allMessages, format: format });
 }));
 
 router.get("/sign-up", (async (req, res, next) => {
