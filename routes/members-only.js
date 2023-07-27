@@ -19,7 +19,7 @@ router.get("/", asyncHandler(async (req, res, next) => {
     res.render("index", { title: "Home", user: req.user, messages: allMessages, format: format });
 }));
 
-router.get("/sign-up", (async (req, res, next) => {
+router.get("/sign-up", checkNotAuthenticated, (async (req, res, next) => {
     res.render("sign_up_form", { title: "Sign Up" });
 }));
 
@@ -86,7 +86,7 @@ router.post("/sign-up", [
     })
 ]);
 
-router.get("/log-in", (async (req, res, next) => {
+router.get("/log-in", checkNotAuthenticated, (async (req, res, next) => {
     res.render("login_form", { title: "Log In" });
 }));
 
@@ -98,7 +98,7 @@ router.post("/log-in",
     })
 );
 
-router.get("/log-out", (req, res, next) => {
+router.get("/log-out", checkAuthenticated, (req, res, next) => {
     req.logout(function (err) {
         if (err) {
             return next(err);
@@ -107,7 +107,7 @@ router.get("/log-out", (req, res, next) => {
     });
 });
 
-router.get("/become-a-member", (async (req, res, next) => {
+router.get("/become-a-member", checkAuthenticatedNotAMember, (async (req, res, next) => {
     res.render("become_a_member", { title: "Become a Member", user: req.user });
 }));
 
@@ -136,7 +136,7 @@ router.post("/become-a-member", [
     })
 ]);
 
-router.get("/become-admin", (async (req, res, next) => {
+router.get("/become-admin", checkAuthenticatedNotAdmin, (async (req, res, next) => {
     res.render("become_admin", { title: "Become Admin", user: req.user });
 }));
 
@@ -164,7 +164,7 @@ router.post("/become-admin", [
     })
 ]);
 
-router.get("/write-a-message", (async (req, res, next) => {
+router.get("/write-a-message", checkAuthenticated, (async (req, res, next) => {
     res.render("message_form", { title: "Write a Message", user: req.user });
 }));
 
@@ -188,5 +188,33 @@ router.post("/write-a-message", [
         res.redirect("/members-only");
     })
 ]);
+
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect("/members-only");
+};
+
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return res.redirect("/members-only");
+    }
+    next();
+};
+
+function checkAuthenticatedNotAMember(req, res, next) {
+    if (req.isAuthenticated() && req.user.membership_status == "Not a member") {
+        return next();
+    }
+    res.redirect("/members-only");
+};
+
+function checkAuthenticatedNotAdmin(req, res, next) {
+    if (req.isAuthenticated() && req.user.membership_status == "Member" && !req.user.is_admin) {
+        return next();
+    }
+    res.redirect("/members-only");
+};
 
 module.exports = router;
