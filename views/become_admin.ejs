@@ -12,21 +12,19 @@
 <body>
     <header>
         <h1><a href="/">Members Only</a></h1>
-        <% if (user) { %>
-            <div class="profile">
-                <img src="/images/profile-circle-filled.svg" alt="<%=user.name %>" title="<%=user.name %>"
-                    class="profile-image">
-                <div class="profile-text">
-                    <h3>
-                        <%= user.name %>
-                    </h3>
-                    <p>Member</p>
-                </div>
-                <a href="/members-only/log-out">
-                    <img src="/images/log-out.svg" alt="log out" title="Log Out" class="profile-log-out">
-                </a>
+        <div class="profile">
+            <img src="/images/profile-circle-filled.svg" alt="<%=user.name %>" title="<%=user.name %>"
+                class="profile-image">
+            <div class="profile-text">
+                <h3>
+                    <%= user.name %>
+                </h3>
+                <p>Member</p>
             </div>
-            <% }%>
+            <a href="/members-only/log-out">
+                <img src="/images/log-out.svg" alt="log out" title="Log Out" class="profile-log-out">
+            </a>
+        </div>
     </header>
     <main>
         <form action="" method="POST">
@@ -45,7 +43,7 @@
                 </p>
                 <% } %>
                     <div class="buttons">
-                        <button onclick="location.href='/members-only'" type="button" class="button">Go to Home
+                        <button onclick="location.href='/members-only'" type="button" class="button">Return to Home
                             Page</button>
                         <button type="submit" class="submit">Submit</button>
                     </div>

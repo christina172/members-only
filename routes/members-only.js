@@ -25,19 +25,11 @@ router.get("/sign-up", (async (req, res, next) => {
 
 router.post("/sign-up", [
     // Validate and sanitize fields.
-    body("first_name", "First name must be specified.")
-        .trim()
-        .isLength({ min: 1 })
-        .escape(),
-    body("last_name", "Last name must be specified.")
-        .trim()
-        .isLength({ min: 1 })
-        .escape(),
+    body("first_name").trim().escape(),
+    body("last_name").trim().escape(),
     body("username")
         .trim()
-        .isLength({ min: 1 })
         .escape()
-        .withMessage("Username must be specified.")
         .custom(async (value) => {
             const existingUser = await User.find({ username: value }).exec();
             if (existingUser.length) {
@@ -46,10 +38,7 @@ router.post("/sign-up", [
                 return true;
             }
         }),
-    body("password", "Password must be at least 8 characters long.")
-        .trim()
-        .isLength({ min: 8 })
-        .escape(),
+    body("password").trim().escape(),
     body('confirm_password').custom((value, { req }) => {
         console.log(req.body);
         if (value !== req.body.password) {
@@ -63,9 +52,8 @@ router.post("/sign-up", [
     (async (req, res, next) => {
         // Extract the validation errors from a request.
         const errors = validationResult(req);
-        console.log(errors);
 
-        // Create User object with escaped and trimmed data and hash the password
+        // Hash the password and create User object with escaped and trimmed data
         bcryptjs.hash(req.body.password, 10, async (err, hashedPassword) => {
             if (err) {
                 return next(err)
@@ -124,13 +112,9 @@ router.get("/become-a-member", (async (req, res, next) => {
 }));
 
 router.post("/become-a-member", [
-    // Validate and sanitize fields.
-    body("answer", "Answer must be specified.")
-        .trim()
-        .isLength({ min: 1 })
-        .escape(),
+    body("answer").trim().escape(),
 
-    // Process request after validation and sanitization.
+    // Process request after sanitization.
     (async (req, res, next) => {
 
         const user = req.user;
@@ -144,6 +128,7 @@ router.post("/become-a-member", [
         } else {
             res.render("become_a_member", {
                 title: "Become a Member",
+                user: user,
                 message: "Your answer is incorrect. Try again.",
             });
             return;
@@ -156,15 +141,10 @@ router.get("/become-admin", (async (req, res, next) => {
 }));
 
 router.post("/become-admin", [
-    // Validate and sanitize fields.
-    body("answer", "Answer must be specified.")
-        .trim()
-        .isLength({ min: 1 })
-        .escape(),
+    body("answer").trim().escape(),
 
-    // Process request after validation and sanitization.
+    // Process request after sanitization.
     (async (req, res, next) => {
-
         const user = req.user;
 
         // Check the answer.
@@ -176,10 +156,36 @@ router.post("/become-admin", [
         } else {
             res.render("become_admin", {
                 title: "Become Admin",
+                user: user,
                 message: "Your answer is incorrect. Try again.",
             });
             return;
         }
+    })
+]);
+
+router.get("/write-a-message", (async (req, res, next) => {
+    res.render("message_form", { title: "Write a Message", user: req.user });
+}));
+
+router.post("/write-a-message", [
+    // Validate and sanitize fields.
+    body("title").trim().escape(),
+    body("text").trim().escape(),
+
+    // Process request after sanitization.
+    (async (req, res, next) => {
+
+        // Create Message object escaped and trimmed data
+        const message = new Message({
+            title: req.body.title,
+            timestamp: Date.now(),
+            text: req.body.text,
+            author: req.user,
+        });
+
+        await message.save();
+        res.redirect("/members-only");
     })
 ]);
 

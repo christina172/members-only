@@ -184,12 +184,19 @@ label {
   font-size: 1.5rem;
 }
 
-input {
+input,
+textarea {
   font-size: 1.25rem;
   padding: 2px 4px;
   min-width: 300px;
   outline-color: var(--secondary-clr);
   font-style: italic;
+}
+
+textarea {
+  min-height: 1.5rem;
+  max-width: 60vw;
+  max-height: 40vh;
 }
 
 .buttons {
@@ -260,6 +267,11 @@ li {
     font-size: 1.2rem;
     border: none;
     border-bottom: 1px solid black;
+  }
+
+  textarea {
+    font-size: 1.2rem;
+    max-width: 80vw;
   }
 
   ul {

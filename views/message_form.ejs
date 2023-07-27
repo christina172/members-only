@@ -11,7 +11,7 @@
 
 <body>
     <header>
-        <h1><a href="/">Members Only</a></h1>
+        <h1><a href="/members-only" title="Home">Members Only</a></h1>
         <div class="profile">
             <img src="/images/profile-circle-filled.svg" alt="<%=user.name %>" title="<%=user.name %>"
                 class="profile-image">
@@ -19,6 +19,15 @@
                 <h3>
                     <%= user.name %>
                 </h3>
+                <% if (user.membership_status=="Member" ) { %>
+                    <p>
+                        <% if (user.is_admin) { %>
+                            Admin
+                            <% } else { %>
+                                Member
+                                <% } %>
+                    </p>
+                    <% } %>
             </div>
             <a href="/members-only/log-out">
                 <img src="/images/log-out.svg" alt="log out" title="Log Out" class="profile-log-out">
@@ -30,16 +39,24 @@
             <h2>
                 <%= title %>
             </h2>
-            <p>Solve a riddle to become a member!</p>
-            <p>What is always in front of you but can't be seen?</p>
             <div class="form-item">
-                <label for="answer">Answer:</label>
-                <input type="text" id="answer" name="answer" required>
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required maxlength="100" value=<%=locals.message ?
+                    message.title : '' %>>
             </div>
-            <% if (locals.message) {%>
-                <p>
-                    <%= locals.message %>
-                </p>
+            <div class="form-item">
+                <label for="text">Message:</label>
+                <textarea type="textarea" id="text" name="text" required maxlength="1000" rows="6"
+                    value=<%=locals.message ? message.text : '' %>></textarea>
+            </div>
+            <% if (locals.errors) {%>
+                <ul>
+                    <% errors.forEach(error=> { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
                 <% } %>
                     <div class="buttons">
                         <button onclick="location.href='/members-only'" type="button" class="button">Return to Home
