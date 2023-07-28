@@ -13,7 +13,7 @@ const asyncHandler = require("express-async-handler");
 router.get("/", asyncHandler(async (req, res, next) => {
     const allMessages = await Message.find()
         .populate("author")
-        .sort({ timestamp: 1 })
+        .sort({ timestamp: -1 })
         .exec();
 
     res.render("index", { title: "Home", user: req.user, messages: allMessages, format: format });
@@ -120,7 +120,7 @@ router.post("/become-a-member", [
         const user = req.user;
 
         // Check the answer.
-        if (req.body.answer === process.env.MEMBER_PASSWORD) {
+        if (req.body.answer.toLowerCase() === "future") {
             user.membership_status = "Member";
             await user.save();
             // Redirect to the home page.
@@ -148,7 +148,7 @@ router.post("/become-admin", [
         const user = req.user;
 
         // Check the answer.
-        if (req.body.answer === process.env.ADMIN_PASSWORD) {
+        if (req.body.answer.toLowerCase === "envelope") {
             user.is_admin = true;
             await user.save();
             // Redirect to the home page.
@@ -188,6 +188,11 @@ router.post("/write-a-message", [
         res.redirect("/members-only");
     })
 ]);
+
+router.post("/delete-message", (async (req, res, next) => {
+    await Message.findByIdAndRemove(req.body.messageid);
+    res.redirect("/members-only");
+}))
 
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

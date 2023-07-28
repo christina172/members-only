@@ -64,7 +64,13 @@
                             <%=message.title %>
                           </h4>
                           <% if (user && user.is_admin) { %>
-                            <img src="/images/delete-orange.svg" alt="delete" title="Delete message">
+                            <form method="POST" action="/members-only/delete-message">
+                              <input type="hidden" name="messageid" required value=<%=message._id %>>
+                              <button type="submit" class="delete-button">
+                                <img src="/images/delete-orange.svg" alt="delete" title="Delete message">
+                              </button>
+                            </form>
+
                             <% } %>
                         </div>
                         <div class="message-details">
@@ -75,7 +81,7 @@
                               </span>
                             </p>
                             <p class="message-time">
-                              <%=format(new Date(message.timestamp), "PPPp" ) %>
+                              <%=format(message.timestamp, "PPPp" ) %>
                             </p>
                             <% } %>
                         </div>

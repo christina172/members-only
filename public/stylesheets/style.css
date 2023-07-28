@@ -139,6 +139,12 @@ h4 {
   font-size: 1.25rem;
 }
 
+.delete-button {
+  outline: none;
+  border: none;
+  background: transparent;
+}
+
 .message img {
   height: 1.5rem;
   width: auto;
@@ -157,7 +163,7 @@ h4 {
 
 /* Form and button styles */
 
-form {
+.form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -168,7 +174,7 @@ form {
   border-left: 8px solid var(--secondary-clr);
 }
 
-form h2 {
+.form h2 {
   font-size: 2rem;
   text-align: center;
   margin-bottom: 0.5rem;
@@ -251,7 +257,7 @@ li {
     gap: 2px;
   }
 
-  form {
+  .form {
     gap: 12px;
     box-shadow: none;
     padding: 0;
