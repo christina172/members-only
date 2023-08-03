@@ -40,7 +40,6 @@ router.post("/sign-up", [
         }),
     body("password").trim().escape(),
     body('confirm_password').custom((value, { req }) => {
-        console.log(req.body);
         if (value !== req.body.password) {
             throw new Error('Confirmation password does not match your password.');
         } else {
