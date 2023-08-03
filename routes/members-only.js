@@ -147,7 +147,7 @@ router.post("/become-admin", [
         const user = req.user;
 
         // Check the answer.
-        if (req.body.answer.toLowerCase === "envelope") {
+        if (req.body.answer.toLowerCase() === "envelope") {
             user.is_admin = true;
             await user.save();
             // Redirect to the home page.
