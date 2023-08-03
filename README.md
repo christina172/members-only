@@ -6,3 +6,5 @@ This aim of this project is to practice creating and authenticating users and gi
 This app allows users to share their messages. Anyone who comes to the site can see a list of all messages, with the author’s name hidden. Users can sign up to be able to create messages. Users need to guess riddles to become members (to be able see the author and date of each message) and then admins (to be able to delete any message).
 
 Icons from [SVG Repo](https://www.svgrepo.com/).
+
+Live preview https://members-only-75bu.onrender.com/members-only
